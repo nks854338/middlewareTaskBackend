@@ -1,16 +1,13 @@
 const express = require('express');
-const { handleUserSignUp, handleUserLogin, getAllUser } = require("../controllers/user");
-const { cheakForAuthentication, restrictTo } = require("../middleware/auth");
-
+const {handleSignIn, handleLogin, getAllUser} = require('../controllers/user');
 const router = express.Router();
-router.use(express.urlencoded({ extended: true }));
 
-// Public routes
-router.route("/").post(handleUserSignUp);
-router.route("/login").post(handleUserLogin);
+router.use(express.urlencoded({ extended: false }));
 
-// Protected route
-router.route("/user")
-    .get(cheakForAuthentication, restrictTo(['user', 'admin']), getAllUser);
+router.route('/').get(getAllUser);
+
+router.route('/signin').post(handleSignIn);
+
+router.route('/login').post(handleLogin);
 
 module.exports = router;
